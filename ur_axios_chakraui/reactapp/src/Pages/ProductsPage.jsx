@@ -1,6 +1,8 @@
 import React, {useEffect, useReducer} from 'react'
 import axios from 'axios';
 import { Box, Heading } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
+import ProductCard from '../Component/ProductCard';
 //in useState, dispatch change the function state
 const initialState = {
   products: [],
@@ -51,7 +53,7 @@ const ProductsPage = () => {
     //network call
     dispatch({type: "FETCH_REQUEST"});
     axios
-    .get(`https://fakestoreapi.com/products`)
+    .get(`https://fakestoreapi.com/products?page=1&limit=4`)
     .then((response)=> {
       //console.log(response);
       dispatch({type: "FETCH_SUCCESS", payload: response.data});
@@ -65,10 +67,18 @@ const ProductsPage = () => {
   }, []);
   console.log(products);
   
-
+//grid wrapper
   return (
     <Box>
       <Heading>Products Page</Heading>
+      {/*grid wrapper */}
+      <Grid templateColumns='repeat(4, 1fr)' gap={6}>
+      {products.map((products)=> (
+        <GridItem w='100%' h='10' bg='blue.500'>
+          <ProductCard Key={products.id} {...products}/>
+        </GridItem>
+      ))}
+  </Grid>
     </Box>
   )
 }

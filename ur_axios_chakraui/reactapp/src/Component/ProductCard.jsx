@@ -1,36 +1,42 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
-
-const ProductCard = () => {
+import { Card, CardHeader, CardBody, CardFooter, Text, Box, Image, Stack, Heading, Divider, ButtonGroup, Button } from '@chakra-ui/react'
+import { Navigate } from 'react-router-dom'
+import { Link as RouterLink } from "react-router-dom"
+// ctrl+shift+4= ₹
+const ProductCard = ({ 
+  category, 
+  description, 
+  image, 
+  price, 
+  rating, 
+  title
+}) => {
   return (
     <Box>
      <Card maxW='sm'>
   <CardBody>
     <Image
-      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      src= {image}
       alt='Green double couch with wooden legs'
       borderRadius='lg'
     />
     <Stack mt='6' spacing='3'>
-      <Heading size='md'>Living room Sofa</Heading>
-      <Text>
-        This sofa is perfect for modern tropical spaces, baroque inspired
-        spaces, earthy toned spaces and for people who love a chic design with a
-        sprinkle of vintage design.
+      <Heading size='md'>{title}</Heading>
+      <Text>{category}</Text>
+      <Text color='blue.600' fontSize='2xl'> 
+     Price:₹{price}
       </Text>
-      <Text color='blue.600' fontSize='2xl'>
-        $450
+      <Text color="blue.600" fontSize="2xl">
+     Rating: {rating.rate}
       </Text>
     </Stack>
   </CardBody>
   <Divider />
   <CardFooter>
     <ButtonGroup spacing='2'>
+      <RouterLink to= {`/products/${id}`} replace={true} />
       <Button variant='solid' colorScheme='blue'>
-        Buy now
-      </Button>
-      <Button variant='ghost' colorScheme='blue'>
-        Add to cart
+        More Details
       </Button>
     </ButtonGroup>
   </CardFooter>
