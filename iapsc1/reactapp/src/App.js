@@ -18,7 +18,20 @@ function App() {
 //console.log(e)
 setState({...state, [e.target.name]: e.target.value})
   }
-  //POST
+// POST
+  const submitfn=(e)=>{
+    //for refresh page
+    e.preventDefault();
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify(state),
+    };
+    fetch(`http://localhost:3000/products`,requestOptions)
+    .then((response)=> response.json())
+    .then((data)=> console.log(data));
+  }
+  
 const postfetch = () => {
 
 }
@@ -43,12 +56,12 @@ const postfetch = () => {
   return (
     <div>
       <h1>Yashika's Store</h1>
-      <form>
+      <form onSubmit={submitfn}>
         <input name='title' placeholder='title' onChange={changefn}/>
         <input name='price' placeholder='price' onChange={changefn}/>
         <input name='category' placeholder='category' onChange={changefn}/>
-<input name='image' placeholder='image' onChange={changefn}/>   
-<button onSubmit={submitfn}>Submit</button>
+        <input name='image' placeholder='image' onChange={changefn}/>   
+         <button type='submit'>Submit</button>
       </form>
       <br />
       <br />
