@@ -7,6 +7,13 @@ const ProductsItems = () => {
     const[sort, setSort] = useState("")
     const[filter, setFilter] = useState("")
     const[pagenation, setPagenation] = useState(1)
+    const[length, setLength] = useState(0) 
+    console.log(length);
+    
+    console.log(pagenation);
+
+    let totalpage= Math.ceil(length/4)
+    console.log(totalpage);
 
     const handleSort = (e) => {
     setSort(e.target.value)
@@ -16,17 +23,22 @@ const ProductsItems = () => {
       setFilter(e.target.value)
     }
 
-    const handlesubmit = (e) => {
-      setPagenation(e.target.value)
+    const pagedata = async() => {
+      const res= await fetch("http://localhost:3000/products")
+      const data = await res.json()
+      //console.log(data.length);
+      setLength(data.length);
     }
+
+  
 
    // console.log(sort);
     //console.log(filter);
-    console.log(pagenation);
+    
 
 
     const fetchdata = async() => {
-      let url= `http://localhost:3000/products?_page=${2}&_limit=6`;
+      let url= `http://localhost:3000/products?_page=${pagenation}&_limit=4`;
 
      //sort  
       if(sort==="asc"){
@@ -66,7 +78,8 @@ const ProductsItems = () => {
       }
       useEffect(() => {
       fetchdata()
-      }, [sort, filter])
+      pagedata()
+      }, [sort, filter, pagenation])
 
 
     return(
@@ -99,8 +112,15 @@ const ProductsItems = () => {
        }
         </div>
       </div>
-      <button onSubmit={handlesubmit}>Prev</button>
-      <button onSubmit={handlesubmit}>Next</button>
+      <button  disabled={pagenation==1} onClick={(()=> {
+        setPagenation(pagenation-1)
+      })}>Prev</button>
+
+      <button>{pagenation}</button>
+      
+      <button disabled={pagenation==totalpage}onClick={(()=> {
+        setPagenation(pagenation+1)
+      })}>Next</button>
         </div>
     )
 }
